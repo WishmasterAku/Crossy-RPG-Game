@@ -1,4 +1,6 @@
 import pygame
+from gameObjects import GameObject
+from player import Player
 
 class Game:
 
@@ -11,15 +13,14 @@ class Game:
 
         self.clock = pygame.time.Clock()#set clock
 
-        background_image = pygame.image.load('assets/assets/background.png')#load image
-        self.background = pygame.transform.scale(background_image, (self.width, self.height))#resize image
-        treasure_image = pygame.image.load('assets/assets/treasure.png')
-        self.treasure = pygame.transform.scale(treasure_image, (50, 50))
+        self.background = GameObject(0, 0, self.width, self.height, 'assets/assets/background.png')
+        self.treasure = GameObject(375, 50, 50, 50, 'assets/assets/treasure.png')
+
 
     def draw_objects(self):
         self.game_window.fill(self.background_color)  
-        self.game_window.blit(self.background, (0, 0))#Top Left Corner | 800 x 800 = Bottom Right Corner
-        self.game_window.blit(self.treasure, (380, 50))            
+        self.game_window.blit(self.background.image, (self.background.x, self.background.y))#Top Left Corner | 800 x 800 = Bottom Right Corner
+        self.game_window.blit(self.treasure.image, (self.treasure.x, self.treasure.y))            
         pygame.display.update()   
 
     def run_game(self):#Method that belongs to Game Class so needs Self init to access variables
