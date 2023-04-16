@@ -14,7 +14,7 @@ class Game:
         self.clock = pygame.time.Clock()#set clock
 
         self.background = GameObject(0, 0, self.width, self.height, 'assets/assets/background.png')
-        self.player = Player(375, 700, 50, 50, 'assets/assets/player.png', 10)
+        self.player = Player(375, 700, 50, 50, 'assets/assets/player.png', 2)
         self.treasure = GameObject(375, 50, 50, 50, 'assets/assets/treasure.png')
 
         
@@ -50,7 +50,7 @@ class Game:
 
 
             # Execute Logic
-            self.player.move(player_direction)
+            self.player.move(player_direction, self.height)
             
             self.draw_objects()
 
