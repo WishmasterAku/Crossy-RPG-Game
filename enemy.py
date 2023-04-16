@@ -10,7 +10,12 @@ class Enemy(GameObject):
 
        
 
-    def move(self):
+    def move(self, max_width):
+        if self.x <= 0 + 150:
+            self.speed = abs(self.speed)#abs() returns the absolute value of a number
+        elif self.x >= max_width - 150:
+            self.speed = -self.speed
 
-        
+
+
         self.x += self.speed
