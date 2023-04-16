@@ -18,7 +18,18 @@ class Game:
         self.player = Player(375, 700, 50, 50, 'assets/assets/player.png', 2)
         self.treasure = GameObject(375, 50, 50, 50, 'assets/assets/treasure.png')
 
+        self.enemies = [
+            Enemy(0, 400, 50, 50, 'assets/assets/enemy.png', 5),
+            Enemy(750, 600, 50, 50, 'assets/assets/enemy.png', 5),
+            #Enemy(50, 200, 50, 50, 'assets/assets/enemy.png', 5),
+            Enemy(550, 300, 50, 50, 'assets/assets/enemy.png', 5),
+                        ]
         self.enemy = Enemy(50, 400, 50, 50, 'assets/assets/enemy.png', 5)
+
+    def move_objects(self, player_direction):
+            self.player.move(player_direction, self.height)
+            for enemy in self.enemies:
+                enemy.move(self.width)
 
         
 
@@ -27,8 +38,10 @@ class Game:
 
         self.game_window.blit(self.background.image, (self.background.x, self.background.y))#Top Left Corner | 800 x 800 = Bottom Right Corner
         self.game_window.blit(self.player.image, (self.player.x, self.player.y))
-        self.game_window.blit(self.treasure.image, (self.treasure.x, self.treasure.y))       
-        self.game_window.blit(self.enemy.image, (self.enemy.x, self.enemy.y))
+        self.game_window.blit(self.treasure.image, (self.treasure.x, self.treasure.y)) 
+
+        for enemy in self.enemies:      
+            self.game_window.blit(enemy.image, (enemy.x, enemy.y))
 
         pygame.display.update()   
 
@@ -68,9 +81,7 @@ class Game:
 
 
             # Execute Logic
-            self.player.move(player_direction, self.height)
-            self.enemy.move(self.width)
-
+            self.move_objects(player_direction)
 
             self.draw_objects()
 
