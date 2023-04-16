@@ -15,16 +15,35 @@ class Game:
         self.clock = pygame.time.Clock()#set clock
 
         self.background = GameObject(0, 0, self.width, self.height, 'assets/assets/background.png')
-        self.player = Player(375, 700, 50, 50, 'assets/assets/player.png', 2)
+        
         self.treasure = GameObject(375, 50, 50, 50, 'assets/assets/treasure.png')
+        
+        self.level = 1.0
 
-        self.enemies = [
-            Enemy(0, 400, 50, 50, 'assets/assets/enemy.png', 5),
-            Enemy(750, 600, 50, 50, 'assets/assets/enemy.png', 5),
-            #Enemy(50, 200, 50, 50, 'assets/assets/enemy.png', 5),
-            Enemy(550, 300, 50, 50, 'assets/assets/enemy.png', 5),
-                        ]
-        self.enemy = Enemy(50, 400, 50, 50, 'assets/assets/enemy.png', 5)
+        self.reset_map()
+    
+    def reset_map(self):
+        self.player = Player(375, 700, 50, 50, 'assets/assets/player.png', 3)
+
+        speed = 2 + (self.level * 5)
+
+        if self.level >= 4.0:
+            self.enemies = [
+                Enemy(100, 400, 50, 50, 'assets/assets/enemy.png', speed),
+                Enemy(650, 600, 50, 50, 'assets/assets/enemy.png', speed),
+                Enemy(550, 300, 50, 50, 'assets/assets/enemy.png', speed),            
+                            ]
+        elif self.level >= 2.0:
+            self.enemies = [
+                Enemy(100, 400, 50, 50, 'assets/assets/enemy.png', speed),
+                Enemy(650, 600, 50, 50, 'assets/assets/enemy.png', speed),
+                            ]
+        else:
+            self.enemies = [
+                Enemy(100, 400, 50, 50, 'assets/assets/enemy.png', speed),
+                            ]
+
+
 
     def move_objects(self, player_direction):
             self.player.move(player_direction, self.height)
@@ -44,6 +63,16 @@ class Game:
             self.game_window.blit(enemy.image, (enemy.x, enemy.y))
 
         pygame.display.update()   
+
+    def check_if_collided(self):
+        for enemy in self.enemies:
+            if self.detect_collsion(self.player, enemy):
+                self.level = 1.0
+                return True
+            if self.detect_collsion(self.player, self.treasure):
+                self.level += 0.5
+                return True
+            return False
 
     def detect_collsion(self, object_1, object_2):
         if object_1.y > (object_2.y + object_2.height):
@@ -86,9 +115,8 @@ class Game:
             self.draw_objects()
 
             # Check for collisions
-            if self.detect_collsion(self.player, self.enemy):
-                return
-            elif self.detect_collsion(self.player, self.treasure):
-                return
+            
+            if self.check_if_collided():
+                self.reset_map()
 
             self.clock.tick(60)#set fps
