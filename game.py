@@ -32,6 +32,20 @@ class Game:
 
         pygame.display.update()   
 
+    def detect_collsion(self, object_1, object_2):
+        if object_1.y > (object_2.y + object_2.height):
+            return False
+        elif (object_1.y + object_1.height) < object_2.y:
+            return False
+        
+        if object_1.x > (object_2.x + object_2.width):
+            return False
+        elif (object_1.x + object_1.width) < object_2.x:
+            return False
+        
+        return True
+
+
     def run_game(self):#Method that belongs to Game Class so needs Self init to access variables
 
         player_direction = 0
@@ -56,6 +70,14 @@ class Game:
             # Execute Logic
             self.player.move(player_direction, self.height)
             self.enemy.move(self.width)
+
+
             self.draw_objects()
+
+            # Check for collisions
+            if self.detect_collsion(self.player, self.enemy):
+                return
+            elif self.detect_collsion(self.player, self.treasure):
+                return
 
             self.clock.tick(60)#set fps
