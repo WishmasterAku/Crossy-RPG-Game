@@ -29,12 +29,29 @@ class Game:
         pygame.display.update()   
 
     def run_game(self):#Method that belongs to Game Class so needs Self init to access variables
-        while True:
+
+        player_direction = 0
+
+        while True: #Handle events
             events = pygame.event.get()#get all events
             for event in events:
                 if event.type == pygame.QUIT:#if user clicks close
                     return
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        #Move player up
+                        player_direction = -1
+                    elif event.key == pygame.K_DOWN:
+                        #Move player down
+                        player_direction = 1
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                        player_direction = 0
 
+
+            # Execute Logic
+            self.player.move(player_direction)
+            
             self.draw_objects()
 
             self.clock.tick(60)#set fps

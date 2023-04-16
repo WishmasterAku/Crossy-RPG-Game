@@ -10,4 +10,6 @@ class Player(GameObject):
 
     def move(self, direction):
         self.y += (self.speed * direction)
+
+    
         
